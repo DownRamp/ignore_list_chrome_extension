@@ -11,10 +11,6 @@
     {
       "matches": ["<all_urls>"],
       "js": ["censorWords.js"]
-    },
-    {
-      "matches": ["https://www.youtube.com/watch?v=*"],
-      "js": ["censorWords.js", "yt-mute.js"]
     }
   ],
   "permissions":[

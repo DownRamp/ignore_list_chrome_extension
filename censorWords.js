@@ -23,7 +23,7 @@ observer.observe(document.body,
 function findText(element) {
 
     if (element.hasChildNodes()) {
-        element.childNodes.forEach(findText); // Dig deeper in the DOM
+        element.childNodes.forEach(findText);
     } 
     else if (element.nodeType === Text.TEXT_NODE) {
         replaceText(element);
@@ -31,13 +31,12 @@ function findText(element) {
 }
 
 function replaceText(textElement) {
-   // Some textual elements may be by themselves. Put spaces to accomodate
    textElement.textContent = ` ${textElement.textContent} `;
 
-   for (let badWord in hateList) {
-        if (badWord != "[ __ ]") {
+   for (let ignor in hateList) {
+        if (ignor != "[ __ ]") {
             // So we can read variables as strings
-            var sRegExpInput = new RegExp(badWord, "gi");
+            var sRegExpInput = new RegExp(ignor, "gi");
             textElement.textContent = textElement.textContent.replace(sRegExpInput, " ████ ");
         }
         // For YouTube subtitles
