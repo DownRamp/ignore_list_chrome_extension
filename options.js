@@ -87,7 +87,7 @@ $(function () {
             var month = todayDate.toLocaleString(locale, {month: "long"});
             var day = todayDate.toLocaleString(locale, {weekday: "long"});
 
-            document.getElementById('date').innerHTML = "Hate checklist for " + day + ", " + todayDate.getDate() + " "
+            document.getElementById('date').innerHTML = "Hate list for " + day + ", " + todayDate.getDate() + " "
                 + month;
         }
     }
