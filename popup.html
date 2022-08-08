@@ -1,36 +1,37 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Hater list</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hate List</title>
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel=“stylesheet” type=“text/css” href=“style.css” />
+    <link rel="stylesheet" href="style.css" media="screen">
+
     <script src="jquery-3.3.1.min.js"></script>
     <script src="popup.js"></script>
-  </head>
-  <body>
+</head>
+<body>
+
 <div class="row">
-    <div class="col-4">
+    <div class="col-8" id="hate-section">
 
-        <div id="addHateItemDiv" class="header input-group mb-3">
-            <input class="form-control" type="text" id="hateItemInput" placeholder=" ">
-            <input type="submit" id="addButtonHate"  class="addBtn btn btn-outline-secondary" value="Hate">
-
+        <div id="addHateDiv" class="header input-group mb-3">
+            <input class="form-control" type="text" id="hateInput" placeholder=" ">
+            <input type="submit" id="addButtonHate"  class="addBtn btn btn-outline-secondary" value="Add Hate">
         </div>
 
+    <div class="container-fluid">
+    <h2 id="date">Hate list for </h2>
+    </div>
 
-        <div class="container-fluid">
-            <h2 style="font-size: 22px;">Hate list </h2>
-        </div>
+    <ul id="hate-listUl" class="list-group">
 
-
-        <ul id="listUl" class="list-group">
-
-        </ul>
+    </ul>
     </div>
 </div>
 
 <footer class="copyright">&copy; Copyright 2022 <a href="https://github.com/DownRamp">DownRampApps</a></footer>
 
 <script src="bootstrap.bundle.js"></script>
-  </body>
+
+</body>
 </html>

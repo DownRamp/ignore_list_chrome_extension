@@ -1,0 +1,4 @@
+- hate list not adding
+- css not taking
+- censor on page
+- censor on websites

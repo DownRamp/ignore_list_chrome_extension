@@ -11,14 +11,11 @@ $(function () {
         for (var i = 0; i < hateList.length; i++) {
             addListItem(hateList[i]);
         }
-
-
     })
 
-    $('#addButtonTask').click(function () {
+    $('#addButtonHate').click(function () {
 
         var newHate = $('#hateInput').val();
-        //adding the new item to tasklist array
         hateList.push(newHate);
         console.log("hateList under click :" + hateList);
         addListItem(newHate);
@@ -32,12 +29,11 @@ $(function () {
 
     function addListItem(value) {
         console.log("addListItem");
-        document.getElementById("hateItemInput").value = "";
-        var ul = document.getElementById("listUl");
+        document.getElementById("hateInput").value = "";
+        var ul = document.getElementById("hate-listUl");
 
-        addUI(ul, value, 2)
+        addUI(ul, value, 1)
     }
-
 
     function addUI(ul, value, num) {
         var li = document.createElement("li");
@@ -46,7 +42,6 @@ $(function () {
 
         if (value === '') {
             //do nothing
-            //alert("You must write something!");
         } else {
             ul.appendChild(li);
         }
@@ -66,26 +61,21 @@ $(function () {
                 div.style.display = "none";
                 removeItem(index);
                 $(".close1").eq(index).remove();
-
             })
         }
-
-
+        }
 
         function removeItem(itemIndex) {
-            console.log("removeHateItem ", itemIndex);
-
+            console.log("removeitem");
             chrome.storage.sync.get(['list1'], function (val) {
                 hateList = val.list1;
                 hateList.splice(itemIndex, 1);
-                console.log("new Hate list", hateList);
+                console.log("new list", hateList);
 
                 chrome.storage.sync.set({
                     'list1': hateList
                 })
-
             })
-
         }
 
         function setDate() {
@@ -95,6 +85,9 @@ $(function () {
             var month = todayDate.toLocaleString(locale, {month: "long"});
             var day = todayDate.toLocaleString(locale, {weekday: "long"});
 
-            document.getElementById('date').innerHTML = "Hate list for " + day + ", " + todayDate.getDate() + " "
+            document.getElementById('date').innerHTML = "Hate checklist for " + day + ", " + todayDate.getDate() + " "
                 + month;
         }
+    }
+
+)
