@@ -1,27 +1,29 @@
+"use strict";
+
 $(function () {
     ///set the date of today
     setDate();
 
-    var todoList = new Array();
-    chrome.storage.sync.get(['list1'], function (val) {
-        if (val.list1.length > 0)
-            todoList = val.list1;
-        console.log("val.list1 :" + val.list1);
+    var hateList = new Array();
+    chrome.storage.sync.get(['list2'], function (val) {
+        if (val.list2.length > 0)
+            hateList = val.list2;
+        console.log("val.list2 :" + val.list2);
         //displaying the old items
-        for (var i = 0; i < todoList.length; i++) {
-            addListItem(todoList[i]);
+        for (var i = 0; i < hateList.length; i++) {
+            addListItem(hateList[i]);
         }
     })
 
-    $('#addButtonTodo').click(function () {
+    $('#addButtonHate').click(function () {
 
-        var newTodo = $('#todoInput').val();
-        todoList.push(newTodo);
-        console.log("todoList under click :" + todoList);
-        addListItem(newTodo);
+        var newHate = $('#hateInput').val();
+        hateList.push(newHate);
+        console.log("hateList under click :" + hateList);
+        addListItem(newHate);
         //adding the new list back to chrome storage
         chrome.storage.sync.set({
-            'list1': todoList
+            'list2': hateList
         })
 
 
@@ -29,8 +31,8 @@ $(function () {
 
     function addListItem(value) {
         console.log("addListItem");
-        document.getElementById("todoInput").value = "";
-        var ul = document.getElementById("todo-listUl");
+        document.getElementById("hateInput").value = "";
+        var ul = document.getElementById("hate-listUl");
 
         addUI(ul, value, 1)
     }
@@ -67,13 +69,13 @@ $(function () {
 
         function removeItem(itemIndex) {
             console.log("removeitem");
-            chrome.storage.sync.get(['list1'], function (val) {
-                todoList = val.list1;
-                todoList.splice(itemIndex, 1);
-                console.log("new list", todoList);
+            chrome.storage.sync.get(['list2'], function (val) {
+                hateList = val.list2;
+                hateList.splice(itemIndex, 1);
+                console.log("new list", hateList);
 
                 chrome.storage.sync.set({
-                    'list1': todoList
+                    'list2': hateList
                 })
             })
         }
@@ -85,7 +87,7 @@ $(function () {
             var month = todayDate.toLocaleString(locale, {month: "long"});
             var day = todayDate.toLocaleString(locale, {weekday: "long"});
 
-            document.getElementById('date').innerHTML = "Todo checklist for " + day + ", " + todayDate.getDate() + " "
+            document.getElementById('date').innerHTML = "Hate checklist for " + day + ", " + todayDate.getDate() + " "
                 + month;
         }
     }

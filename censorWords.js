@@ -1,9 +1,9 @@
 var hateList = new Array();
 
-chrome.storage.sync.get(['list1'], function (val) {
+chrome.storage.sync.get(['list2'], function (val) {
     if (val.list1.length > 0)
-        hateList = val.list1;
-    console.log("val.list1 :" + val.list1);
+        hateList = val.list2;
+    console.log("val.list2 :" + val.list2);
 })
 
 setTimeout(findText(document.body), 1000) // After a second of load time
@@ -38,18 +38,6 @@ function replaceText(textElement) {
             // So we can read variables as strings
             var sRegExpInput = new RegExp(ignor, "gi");
             textElement.textContent = textElement.textContent.replace(sRegExpInput, " ████ ");
-        }
-        // For YouTube subtitles
-        else {
-            try {
-                if (textElement.parentElement.className === "captions-text" || 
-                textElement.parentElement.className === "ytp-caption-segment") {
-                    // replace the no break space with a normal space for detection purposes
-                    textElement.textContent = textElement.textContent.replace(/ /gi, " ");
-                    textElement.textContent = textElement.textContent.replace(/\[ __ \]/gi, " ████ ");
-                }
-            }
-            catch(Exception) {} // pass
         }
     }
     // Get rid of added spaces.

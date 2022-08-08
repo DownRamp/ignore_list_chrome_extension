@@ -1,8 +1,9 @@
 {
   "name": "Hater list",
-  "description": "Keep track of all the things you hate",
+  "description": "Keep track of all the things you hate and do all things you love",
   "version": "1.0",
   "incognito": "split",
+  "options_page": "options.html",
   "chrome_url_overrides": {
     "newtab": "popup.html"
   },
@@ -16,7 +17,8 @@
   "permissions":[
     "storage",
     "notifications",
-    "contextMenus"
+    "contextMenus",
+    "tabs"
   ]
 }
 
