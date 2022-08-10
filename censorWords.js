@@ -1,46 +1,49 @@
-var hateList = new Array();
 
-chrome.storage.sync.get(['list2'], function (val) {
-    if (val.list1.length > 0)
-        hateList = val.list2;
-    console.log("val.list2 :" + val.list2);
-})
-
-setTimeout(findText(document.body), 1000) // After a second of load time
-
-const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach(findText)
-    });
-});
-
-observer.observe(document.body,  
-    { 
-        subtree: true,
-        childList: true // Look for any additions of child nodes
-    });
-
-function findText(element) {
-
-    if (element.hasChildNodes()) {
-        element.childNodes.forEach(findText);
-    } 
-    else if (element.nodeType === Text.TEXT_NODE) {
-        replaceText(element);
-    }
-}
-
-function replaceText(textElement) {
-   textElement.textContent = ` ${textElement.textContent} `;
-
-   for (let ignor in hateList) {
-        if (ignor != "[ __ ]") {
-            // So we can read variables as strings
-            var sRegExpInput = new RegExp(ignor, "gi");
-            textElement.textContent = textElement.textContent.replace(sRegExpInput, " ████ ");
+function findWord(searchWord){
+	var searchregexp = new RegExp(searchWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "gi");
+//	console.log(searchregexp);
+	var elements = document.getElementsByTagName('*');
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        if(element.tagName == 'HEAD' ||element.tagName == 'TITLE'||element.tagName =='SCRIPT'||element.tagName=='LINK'||element.tagName=='STYLE') continue;
+        for (var j = 0; j < element.childNodes.length; j++) {
+            var node = element.childNodes[j];
+            if (node.nodeType === 3) {
+                var text = node.nodeValue;
+                var replacedText = text.replace(searchregexp, "FOUND_THIS_WORD");
+                if (replacedText !== text) {
+                    element.innerHTML = replacedText;
+                }
+            }
         }
     }
-    // Get rid of added spaces.
-    textElement.textContent = textElement.textContent.slice(1, textElement.textContent.length - 1);
 }
 
+function updateWord(searchWord){
+	var elements = document.getElementsByTagName('*');
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        for (var j = 0; j < element.childNodes.length; j++) {
+            var node = element.childNodes[j];
+            if (node.nodeType === 3) {
+                var text = node.nodeValue;
+                var replacedText = text.replace(/FOUND_THIS_WORD/gi, "<span class = 'highlighted' style='color:white;background-color:red;font-weight:bold'>" +  searchWord + "</span>");
+                if (replacedText !== text) {
+                    element.innerHTML = replacedText;
+                }
+            }
+        }
+    }
+}
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        chrome.storage.sync.get(['list2'], function (val) {
+            if (val.list2.length > 0)
+                for (var i = 0; i < val.list2.length; i++) {
+                    findWord(val.list2[i]);
+                    updateWord(val.list2[i]);
+                }
+        })
+        sendResponse({farewell: "completed"});
+});

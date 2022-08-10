@@ -1,4 +1,4 @@
-- hate list not adding
-- css not taking
+- Center pages
 - censor on page
-- censor on websites
+- censor whole websites
+  - (If has .com)
