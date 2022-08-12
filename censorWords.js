@@ -5,7 +5,20 @@ function findWord(searchWord){
 	var elements = document.getElementsByTagName('*');
     for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
-        if(element.tagName == 'HEAD' ||element.tagName == 'TITLE'||element.tagName =='SCRIPT'||element.tagName=='LINK'||element.tagName=='STYLE') continue;
+        if(element.tagName == 'TITLE') {
+            for (var j = 0; j < element.childNodes.length; j++) {
+                var node = element.childNodes[j];
+                if (node.nodeType === 3) {
+                    var text = node.nodeValue;
+                    var replacedText = text.replace(searchregexp, "HATE THIS PAGE");
+                    if (replacedText !== text) {
+                        element.innerHTML = replacedText;
+                    }
+                }
+            }
+            continue;
+        }
+        if(element.tagName == 'HEAD' ||element.tagName =='SCRIPT'||element.tagName=='LINK'||element.tagName=='STYLE') continue;
         for (var j = 0; j < element.childNodes.length; j++) {
             var node = element.childNodes[j];
             if (node.nodeType === 3) {
