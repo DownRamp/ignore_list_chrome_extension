@@ -99,7 +99,6 @@ $(function () {
         var li = document.createElement("li");
         $("li").addClass("list-group-item");
         li.appendChild(document.createTextNode(value));
-
         if (value === '') {
             //do nothing
         } else {
@@ -112,7 +111,7 @@ $(function () {
             span.className = "close1";
             span.appendChild(txt);
             li.appendChild(span);
-
+            li.draggable="true";
             $(".close1").click(function () {
                 var index = $(this).index(".close1");
 
@@ -127,6 +126,7 @@ $(function () {
             span.className = "close3";
             span.appendChild(txt);
             li.appendChild(span);
+            li.draggable="true";
 
             $(".close3").click(function () {
                 var index = $(this).index(".close3");
