@@ -124,7 +124,30 @@ ul li.checked::before {
     color: white;
 }
 
-.learnClass{
+.close3 {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px 16px 12px 16px;
+}
+
+.close3:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+.close4 {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px 16px 12px 16px;
+}
+
+.close4:hover {
+    background-color: #f44336;
+    color: white;
+}
+.backlogClass{
     background: #005cbf;
 }
 /* Style the header */
@@ -156,14 +179,13 @@ input {
 
 /* Style the "Add" button */
 .addBtn {
-    padding: 10px;
-    width: 25%;
+    width: 40%;
     background: #007bff;
     color: #f8f8f8;
     float: left;
     border: none;
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     transition: 0.3s;
 }

@@ -12,7 +12,24 @@
 <body>
 
 <div class="row">
-    <div class="col-8" id="todo-section">
+
+    <div class="col-sm" id="backlog-section">
+
+        <div id="addBacklogDiv" class="header input-group mb-3">
+            <input class="form-control" type="text" id="backlogInput" placeholder=" ">
+            <input type="submit" id="addButtonBacklog"  class="addBtn btn btn-outline-secondary" value="Add Backlog">
+        </div>
+
+    <div class="container-fluid">
+    <h2 id="backlog">Backlog:</h2>
+    </div>
+
+    <ul id="backlog-listUl" class="list-group">
+
+    </ul>
+    </div>
+
+    <div class="col-sm" id="todo-section">
 
         <div id="addTodoDiv" class="header input-group mb-3">
             <input class="form-control" type="text" id="todoInput" placeholder=" ">
@@ -24,6 +41,22 @@
     </div>
 
     <ul id="todo-listUl" class="list-group">
+
+    </ul>
+    </div>
+
+    <div class="col-sm" id="achievement-section">
+
+        <div id="addAchievmentDiv" class="header input-group mb-3">
+            <input class="form-control" type="text" id="achievementInput" placeholder=" ">
+            <input type="submit" id="addButtonAchievement"  class="addBtn btn btn-outline-secondary" value="Add Achievements">
+        </div>
+
+    <div class="container-fluid">
+    <h2 id="achievement">Achievements: </h2>
+    </div>
+
+    <ul id="achievement-listUl" class="list-group">
 
     </ul>
     </div>
