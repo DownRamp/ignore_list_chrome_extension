@@ -1,6 +1,31 @@
 $(function () {
     ///set the date of today
     setDate();
+    // console.log("HIHIHI");
+    // const items = document.querySelectorAll('.list-group-item')
+    // const columns = document.querySelectorAll('.col-sm')
+
+    // items.forEach(item => {
+    //     item.addEventListener('dragstart', dragStart);
+    //     item.addEventListener('dragend', dragEnd);
+    // });
+
+    // function dragStart() {
+    //     console.log('drag started');
+    // }
+    // function dragEnd() {
+    //     console.log('drag ended');
+    // }
+    function onDragStart(event) {
+        event
+          .dataTransfer
+          .setData('text/plain', event.target.id);
+
+        event
+          .currentTarget
+          .style
+          .backgroundColor = 'yellow';
+      }
 
     var todoList = new Array();
     chrome.storage.sync.get(['list1'], function (val) {
@@ -112,6 +137,7 @@ $(function () {
             span.appendChild(txt);
             li.appendChild(span);
             li.draggable="true";
+            li.ondragstart="onDragStart(event);"
             $(".close1").click(function () {
                 var index = $(this).index(".close1");
 
@@ -127,6 +153,7 @@ $(function () {
             span.appendChild(txt);
             li.appendChild(span);
             li.draggable="true";
+            li.ondragstart="onDragStart(event);"
 
             $(".close3").click(function () {
                 var index = $(this).index(".close3");
