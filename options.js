@@ -88,7 +88,7 @@ $(function () {
             var day = todayDate.toLocaleString(locale, {weekday: "long"});
 
             document.getElementById('date').innerHTML = "Hate list for " + day + ", " + todayDate.getDate() + " "
-                + month;
+                + month +":";
         }
     }
 
