@@ -3,11 +3,6 @@ $(function () {
     setDate();
 
     let dragged;
-
-    /* events fired on the draggable target */
-    document.addEventListener("drag", (event) => {
-      console.log("dragging");
-    });
     
     document.addEventListener("dragstart", (event) => {
       // store a ref. on the dragged elem
@@ -16,8 +11,9 @@ $(function () {
       event.target.classList.add("dragging");
     });
     
-    document.addEventListener("dragend", (event) => {
+    document.addEventListener("dragend", (event) => {        
       // reset the transparency
+
       event.target.classList.remove("dragging");
     });
     
@@ -29,14 +25,24 @@ $(function () {
     
     document.addEventListener("dragenter", (event) => {
       // highlight potential drop target when the draggable element enters it
-      if (event.target.classList.contains("dropzone")) {
+      if (event.target.classList.contains("dropzone1")) {
+        // remove from one list and add to another 
+
+        event.target.classList.add("dragover");
+      }
+      else if (event.target.classList.contains("dropzone2")) {
+        // remove from one list and add to another 
+
         event.target.classList.add("dragover");
       }
     });
     
     document.addEventListener("dragleave", (event) => {
       // reset background of potential drop target when the draggable element leaves it
-      if (event.target.classList.contains("dropzone")) {
+      if (event.target.classList.contains("dropzone1")) {
+        event.target.classList.remove("dragover");
+      }
+      else if (event.target.classList.contains("dropzone2")) {
         event.target.classList.remove("dragover");
       }
     });
@@ -45,10 +51,18 @@ $(function () {
       // prevent default action (open as link for some elements)
       event.preventDefault();
       // move dragged element to the selected drop target
-      if (event.target.classList.contains("dropzone")) {
+      if (event.target.classList.contains("dropzone1")) {
         event.target.classList.remove("dragover");
-        dragged.parentNode.removeChild(dragged);
-        event.target.appendChild(dragged);
+        var saveValue = dragged.textContent.slice(0, -1)
+        dragged.querySelector("span").click();
+        saver(saveValue,3);
+      }
+
+      else if (event.target.classList.contains("dropzone2")) {
+        event.target.classList.remove("dragover");
+        var saveValue = dragged.textContent.slice(0, -1)
+        dragged.querySelector("span").click();
+        saver(saveValue,1);
       }
     });
 
@@ -85,46 +99,52 @@ $(function () {
     })
 
     $('#addButtonTodo').click(function () {
-
         var newTodo = $('#todoInput').val();
-        todoList.push(newTodo);
-        console.log("todoList under click :" + todoList);
-        addListItem(newTodo);
-        //adding the new list back to chrome storage
-        chrome.storage.sync.set({
-            'list1': todoList
-        })
-
+        saver(newTodo,1);
 
     });
 
     $('#addButtonBacklog').click(function () {
-
         var newBacklog = $('#backlogInput').val();
-        backlogList.push(newBacklog);
-        console.log("todoList under click :" + backlogList);
-        addListItem(newBacklog,3);
-        //adding the new list back to chrome storage
-        chrome.storage.sync.set({
-            'list3': backlogList
-        })
-
-
+        saver(newBacklog,3);
     });
+
 
     $('#addButtonAchievement').click(function () {
-
         var newAchievement = $('#achievementInput').val();
-        achievementList.push(newAchievement);
-        console.log("achievementList under click :" + achievementList);
-        addListItem(newAchievement,4);
-        //adding the new list back to chrome storage
-        chrome.storage.sync.set({
-            'list4': achievementList
-        })
-
-
+        saver(newAchievement,4);
     });
+
+    function saver(value, num){
+        if(num == 1){
+            todoList.push(value);
+            console.log("todoList under click :" + todoList);
+            addListItem(value,1);
+            //adding the new list back to chrome storage
+            chrome.storage.sync.set({
+                'list1': todoList
+            })
+        }
+        else if(num == 3){
+            backlogList.push(value);
+            console.log("todoList under click :" + backlogList);
+            addListItem(value,3);
+            //adding the new list back to chrome storage
+            chrome.storage.sync.set({
+                'list3': backlogList
+            })
+        }
+        else if(num == 4){
+            achievementList.push(value);
+            console.log("achievementList under click :" + achievementList);
+            addListItem(value,4);
+            //adding the new list back to chrome storage
+            chrome.storage.sync.set({
+                'list4': achievementList
+            })
+        }
+    }
+
     function addListItem(value,num) {
         console.log("addListItem");
 
@@ -165,7 +185,6 @@ $(function () {
             li.ondragstart="onDragStart(event);"
             $(".close1").click(function () {
                 var index = $(this).index(".close1");
-
                 console.log(index);
                 var div = this.parentElement;
                 div.style.display = "none";
@@ -182,7 +201,6 @@ $(function () {
 
             $(".close3").click(function () {
                 var index = $(this).index(".close3");
-
                 console.log(index);
                 var div = this.parentElement;
                 div.style.display = "none";

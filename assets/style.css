@@ -233,16 +233,32 @@ input {
     color:#7d979a;
 }
 
-.dropzone {
+.dropzone1 {
     width: 100%;
     height: auto;
     padding: 20px;
   }
   
-  .dropzone.dragover {
+.dropzone2 {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+.nondropzone {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+.dropzone1.dragover {
+    background-color: purple;
+  }
+
+.dropzone2.dragover {
     background-color: purple;
   }
   
-  .dragging {
+.dragging {
     opacity: .5;
   }

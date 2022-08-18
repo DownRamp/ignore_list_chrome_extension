@@ -1,4 +1,0 @@
-- Center pages
-- censor on page
-- censor whole websites
-  - (If has .com)
