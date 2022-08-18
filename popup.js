@@ -228,7 +228,7 @@ $(function () {
             var day = todayDate.toLocaleString(locale, {weekday: "long"});
 
             document.getElementById('date').innerHTML = "Todo checklist for " + day + ", " + todayDate.getDate() + " "
-                + month;
+                + month +":";
         }
     }
 
