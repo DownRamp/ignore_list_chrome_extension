@@ -232,3 +232,17 @@ input {
     margin-top: 50px;
     color:#7d979a;
 }
+
+.dropzone {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+  
+  .dropzone.dragover {
+    background-color: purple;
+  }
+  
+  .dragging {
+    opacity: .5;
+  }
