@@ -101,7 +101,6 @@ $(function () {
     $('#addButtonTodo').click(function () {
         var newTodo = $('#todoInput').val();
         saver(newTodo,1);
-
     });
 
     $('#addButtonBacklog').click(function () {
@@ -182,7 +181,7 @@ $(function () {
             span.appendChild(txt);
             li.appendChild(span);
             li.draggable="true";
-            li.ondragstart="onDragStart(event);"
+//            li.ondragstart="onDragStart(event);"
             $(".close1").click(function () {
                 var index = $(this).index(".close1");
                 console.log(index);
@@ -197,7 +196,7 @@ $(function () {
             span.appendChild(txt);
             li.appendChild(span);
             li.draggable="true";
-            li.ondragstart="onDragStart(event);"
+//            li.ondragstart="onDragStart(event);"
 
             $(".close3").click(function () {
                 var index = $(this).index(".close3");
