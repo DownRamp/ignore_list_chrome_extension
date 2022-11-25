@@ -126,7 +126,7 @@ $(function () {
         }
         else if(num == 3){
             backlogList.push(value);
-            console.log("todoList under click :" + backlogList);
+            console.log("backlogList under click :" + backlogList);
             addListItem(value,3);
             //adding the new list back to chrome storage
             chrome.storage.sync.set({
@@ -184,7 +184,6 @@ $(function () {
 //            li.ondragstart="onDragStart(event);"
             $(".close1").click(function () {
                 var index = $(this).index(".close1");
-                console.log(index);
                 var div = this.parentElement;
                 div.style.display = "none";
                 removeItem(index,1);
@@ -200,7 +199,6 @@ $(function () {
 
             $(".close3").click(function () {
                 var index = $(this).index(".close3");
-                console.log(index);
                 var div = this.parentElement;
                 div.style.display = "none";
                 removeItem(index,3);
@@ -214,7 +212,6 @@ $(function () {
 
             $(".close4").click(function () {
                 var index = $(this).index(".close4");
-                console.log(index);
                 var div = this.parentElement;
                 div.style.display = "none";
                 removeItem(index,4);
@@ -224,10 +221,10 @@ $(function () {
         }
 
         function removeItem(itemIndex, num) {
+            console.log("removeitem");
+
             if(num == 1){
-                console.log("removeitem");
                 chrome.storage.sync.get(['list1'], function (val) {
-                    todoList = val.list1;
                     todoList.splice(itemIndex, 1);
                     console.log("new list", todoList);
 
@@ -237,9 +234,7 @@ $(function () {
                 })
             }
             else if(num == 3){
-                console.log("removeitem");
                 chrome.storage.sync.get(['list3'], function (val) {
-                    backlogList = val.list3;
                     backlogList.splice(itemIndex, 1);
                     console.log("new list", backlogList);
 
@@ -249,7 +244,6 @@ $(function () {
                 })
             }
             else{
-                console.log("removeitem");
                 chrome.storage.sync.get(['list4'], function (val) {
                     achievementList = val.list4;
                     achievementList.splice(itemIndex, 1);
