@@ -1,7 +1,7 @@
 $(function () {
     ///set the date of today
     setDate();
-
+    // drag events
     let dragged;
     
     document.addEventListener("dragstart", (event) => {
@@ -66,6 +66,7 @@ $(function () {
       }
     });
 
+    // Fetch at start to get local memory lists
     var todoList = new Array();
     chrome.storage.sync.get(['list1'], function (val) {
         if (val.list1.length > 0)
@@ -98,6 +99,18 @@ $(function () {
         }
     })
 
+    var goalList = new Array();
+    chrome.storage.sync.get(['list5'], function (val) {
+        if (val.list5.length > 0)
+            goalList = val.list5;
+        console.log("val.list5 :" + val.list5);
+        //displaying the old items
+        for (var i = 0; i < goalList.length; i++) {
+            addListItem(goalList[i],5);
+        }
+    })
+
+    // events to wait for button clicks
     $('#addButtonTodo').click(function () {
         var newTodo = $('#todoInput').val();
         saver(newTodo,1);
@@ -114,6 +127,12 @@ $(function () {
         saver(newAchievement,4);
     });
 
+    $('#addButtonGoal').click(function () {
+        var newGoal = $('#goalInput').val();
+        saver(newGoal,5);
+    });
+
+    // add list to local memory lists
     function saver(value, num){
         if(num == 1){
             todoList.push(value);
@@ -142,8 +161,17 @@ $(function () {
                 'list4': achievementList
             })
         }
+        else if(num == 5){
+            goalList.push(value);
+            console.log("goalList under click :" + goalList);
+            addListItem(value,5);
+            //adding the new list back to chrome storage
+            chrome.storage.sync.set({
+                'list5': goalList
+            })
+        }
     }
-
+    // add list to in memory lists
     function addListItem(value,num) {
         console.log("addListItem");
 
@@ -157,6 +185,11 @@ $(function () {
             var ul = document.getElementById("backlog-listUl");
             addUI(ul, value, 3)
         }
+        else if(num == 5){
+            document.getElementById("goalsInput").value = "";
+            var ul = document.getElementById("goals-listUl");
+            addUI(ul, value, 5)
+        }
         else{
             document.getElementById("achievementInput").value = "";
             var ul = document.getElementById("achievement-listUl");
@@ -164,6 +197,7 @@ $(function () {
         }
     }
 
+    // add to html list
     function addUI(ul, value, num) {
         var li = document.createElement("li");
         $("li").addClass("list-group-item");
@@ -205,6 +239,19 @@ $(function () {
                 $(".close3").eq(index).remove();
             })
         }
+        else if (num === 5) {
+            span.className = "close5";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            $(".close5").click(function () {
+                var index = $(this).index(".close5");
+                var div = this.parentElement;
+                div.style.display = "none";
+                removeItem(index,5);
+                $(".close5").eq(index).remove();
+            })
+        }
         else{
             span.className = "close4";
             span.appendChild(txt);
@@ -220,6 +267,7 @@ $(function () {
         }
         }
 
+        // delete function
         function removeItem(itemIndex, num) {
             console.log("removeitem");
 
@@ -243,6 +291,16 @@ $(function () {
                     })
                 })
             }
+            else if(num == 5){
+                chrome.storage.sync.get(['list5'], function (val) {
+                    backlogList.splice(itemIndex, 1);
+                    console.log("new list", goalList);
+
+                    chrome.storage.sync.set({
+                        'list5': goalList
+                    })
+                })
+            }
             else{
                 chrome.storage.sync.get(['list4'], function (val) {
                     achievementList = val.list4;
@@ -256,6 +314,7 @@ $(function () {
             }
         }
 
+        // date function
         function setDate() {
             var todayDate = new Date();
             console.log(todayDate);
