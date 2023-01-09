@@ -1,9 +1,11 @@
 $(function () {
     ///set the date of today
     setDate();
+    setGoalDate();
     // drag events
     let dragged;
-    
+    var counter =0;
+
     document.addEventListener("dragstart", (event) => {
       // store a ref. on the dragged elem
       dragged = event.target;
@@ -35,6 +37,11 @@ $(function () {
 
         event.target.classList.add("dragover");
       }
+      else if (event.target.classList.contains("dropzone3")) {
+        // remove from one list and add to another 
+
+        event.target.classList.add("dragover");
+      }
     });
     
     document.addEventListener("dragleave", (event) => {
@@ -43,6 +50,9 @@ $(function () {
         event.target.classList.remove("dragover");
       }
       else if (event.target.classList.contains("dropzone2")) {
+        event.target.classList.remove("dragover");
+      }
+      else if (event.target.classList.contains("dropzone3")) {
         event.target.classList.remove("dragover");
       }
     });
@@ -64,9 +74,38 @@ $(function () {
         dragged.querySelector("span").click();
         saver(saveValue,1);
       }
+      else if (event.target.classList.contains("dropzone3")) {
+        event.target.classList.remove("dragover");
+        var saveValue = dragged.textContent.slice(0, -1)
+        dragged.querySelector("span").click();
+        counter=counter+1;
+        saver(counter,6);
+      }
+    });
+
+    var goalList = new Array();
+    chrome.storage.sync.get(['list5'], function (val) {
+        if (val.list5.length > 0)
+            goalList = val.list5;
+        console.log("val.list5 :" + val.list5);
+        //displaying the old items
+        for (var i = 0; i < goalList.length; i++) {
+            addListItem(goalList[i],5);
+        }
+        setGoals();
     });
 
     // Fetch at start to get local memory lists
+    chrome.storage.sync.get(['counter'], function (val) {
+        console.log("counter :" + val.counter);
+        if(val.counter != undefined){
+            console.log("HERE"+val.counter);
+            counter = val.counter;}
+
+        //displaying the old items
+        setCounter(counter);
+    });
+
     var todoList = new Array();
     chrome.storage.sync.get(['list1'], function (val) {
         if (val.list1.length > 0)
@@ -99,25 +138,20 @@ $(function () {
         }
     })
 
-    var goalList = new Array();
-    chrome.storage.sync.get(['list5'], function (val) {
-        if (val.list5.length > 0)
-            goalList = val.list5;
-        console.log("val.list5 :" + val.list5);
-        //displaying the old items
-        for (var i = 0; i < goalList.length; i++) {
-            addListItem(goalList[i],5);
-        }
-    })
-
     // events to wait for button clicks
     $('#addButtonTodo').click(function () {
         var newTodo = $('#todoInput').val();
+        var goal = $('#goal-select').val();
+        console.log(goal);
+        newTodo = newTodo + "-" + goal
         saver(newTodo,1);
     });
 
     $('#addButtonBacklog').click(function () {
         var newBacklog = $('#backlogInput').val();
+        var goal = $('#goal-select').val();
+        console.log(goal);
+        newTodo = newTodo + "-" + goal
         saver(newBacklog,3);
     });
 
@@ -127,8 +161,8 @@ $(function () {
         saver(newAchievement,4);
     });
 
-    $('#addButtonGoal').click(function () {
-        var newGoal = $('#goalInput').val();
+    $('#addButtonGoals').click(function () {
+        var newGoal = $('#goalsInput').val();
         saver(newGoal,5);
     });
 
@@ -170,6 +204,14 @@ $(function () {
                 'list5': goalList
             })
         }
+        else if(num == 6){
+            console.log("Counter :" + value);
+            setCounter(value);
+            //adding the new list back to chrome storage
+            chrome.storage.sync.set({
+                'counter': value
+            })
+        }
     }
     // add list to in memory lists
     function addListItem(value,num) {
@@ -202,7 +244,7 @@ $(function () {
         var li = document.createElement("li");
         $("li").addClass("list-group-item");
         li.appendChild(document.createTextNode(value));
-        if (value === '') {
+        if (value === '' || li == null) {
             //do nothing
         } else {
             ul.appendChild(li);
@@ -293,7 +335,9 @@ $(function () {
             }
             else if(num == 5){
                 chrome.storage.sync.get(['list5'], function (val) {
-                    backlogList.splice(itemIndex, 1);
+                    goalList = val.list5;
+
+                    goalList.splice(itemIndex, 1);
                     console.log("new list", goalList);
 
                     chrome.storage.sync.set({
@@ -324,6 +368,40 @@ $(function () {
 
             document.getElementById('date').innerHTML = "Todo checklist for " + day + ", " + todayDate.getDate() + " "
                 + month +":";
+        }
+
+        function setCounter(counter) {
+            document.getElementById('completed').innerHTML = "Completed tasks: "+counter;
+        }
+
+        function setGoalDate() {
+            var today=new Date();
+            console.log(today);
+            var goal=new Date(today.getFullYear(), 11, 31);
+            if (today.getMonth()==11 && today.getDate()>25) 
+            {
+                goal.setFullYear(goal.getFullYear()+1); 
+            }  
+
+            var one_day=1000*60*60*24;
+            document.getElementById('goals_date').innerHTML = Math.ceil((goal.getTime()-today.getTime())/(one_day))+
+            " days left on goals!";
+        }
+
+        function setGoals(){
+            let selectTag = document.getElementById("goal-select");
+            let selectBackTag = document.getElementById("goal-back-select");
+
+            goalList.map( (lang, i) => {
+                let opt = document.createElement("option");
+                opt.value = i; // the index
+                opt.innerHTML = lang;
+                selectTag.append(opt);
+                let opt2 = document.createElement("option");
+                opt2.value = i; // the index
+                opt2.innerHTML = lang;
+                selectBackTag.append(opt2);
+            });
         }
     }
 
